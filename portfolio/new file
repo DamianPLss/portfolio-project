@@ -1,3 +1,20 @@
+server {
+    listen 80;
+    server_name 134.209.22.204;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/djangodeploy/portfolio-project;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/djangodeploy/portfolio-project/portfolio.sock;
+    }
+}
+
+
+--------------------
 [Unit]
 Description=gunicorn daemon
 Requires=gunicorn.socket
