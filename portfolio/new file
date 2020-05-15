@@ -1,9 +1,12 @@
 server {
     listen 80;
-    server_name 134.209.22.204;
+    server_name 178.62.93.231;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
+        root /home/djangodeploy/portfolio-project;
+    }
+    location /media/ {
         root /home/djangodeploy/portfolio-project;
     }
 
@@ -12,19 +15,3 @@ server {
         proxy_pass http://unix:/home/djangodeploy/portfolio-project/portfolio.sock;
     }
 }
-
-
---------------------
-[Unit]
-Description=gunicorn daemon
-Requires=gunicorn.socket
-After=network.target
-
-[Service]
-User=djangodeploy
-Group=www-data
-WorkingDirectory=/home/djangodeploy/portfolio-project
-ExecStart=/home/djangodeploy/myvenv/bin/gunicorn \ --access-logfile - \ --workers 3 \ --bind unix:/run/gunicorn.sock \ portfolio-project.wsgi:application
-
-[Install]
-WantedBy=multi-user.target
